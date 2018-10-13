@@ -1,0 +1,346 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{algpseudocode, algorithm}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{tabu}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\newenvironment{solution}{\begin{proof}[\textnormal{\textbf{Solution}}]}{\end{proof}}
+\newenvironment{exercise}[1]{\begin{proof}[\textnormal{\textbf{Exercise #1:}}]\phantom{\qedhere}}{\end{proof}}
+\newenvironment{lemma}{\begin{proof}[\textnormal{\textbf{Lemma}}]\phantom{\qedhere}}{\end{proof}}
+\newenvironment{definition}[1]{\begin{proof}[\textnormal{\textbf{Definition: #1}}]\mbox{}\\\phantom{\qedhere}}{\end{proof}}
+
+\theoremstyle{definition}
+\newtheorem*{thm}{Theorem}
+
+\begin{document}
+\begin{titlepage}\pagenumbering{gobble}
+	\centering
+	{\scshape\LARGE University of Houston\par}
+	\vspace{1cm}
+	{\scshape\Large Mid-Term Review \par}
+	\vspace{1.5cm}
+	{\huge\bfseries COSC 3320 \par}
+	{\huge\bfseries Algorithms and Data Structures\par}
+	\vspace{0.5cm}
+	{\large\bfseries Gopal Pandurangan\par}
+	\vspace{2cm}
+	\vfill
+
+% Bottom of the page
+\end{titlepage}
+\vspace*{\fill}\begin{center}{\Huge This page intentionally left blank.}\end{center}\vspace*{\fill}\thispagestyle{empty}\clearpage
+\pagenumbering{arabic}
+\section{Asymptotic Notation}
+\subsection{Big-O}
+ \begin{definition}{Big-O}
+  A function $f$ is ``Big-O'' of $g$, written $f(n)=O(g(n))$ if and only if there exist constants $c$ and $n_0$ such that \[f(n)\leq c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=O(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=c<\infty\]
+ \end{definition}
+ 
+  \begin{definition}{Little-o}
+  A function $f$ is ``Little-o'' of $g$, written $f(n)=o(g(n))$ if and only if there exist constants $c$ and $n_0$ such that \[f(n)< c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=o(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=0\]
+ \end{definition}
+
+\subsection{Big-$\Omega$}
+ \begin{definition}{Big-$\Omega$}
+  A function $f$ is ``Big-$\Omega$'' of $g$, written $f(n)=\Omega(g(n))$ if and only if there exist constants $c$ and $n_0$ such that \[f(n)\geq c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=O(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=c>0\]
+ \end{definition}
+ 
+  \begin{definition}{Little-$\omega$}
+  A function $f$ is ``Little-$\omega$'' of $g$, written $f(n)=\omega(g(n))$ if and only if there exist constants $c$ and $n_0$ such that \[f(n)> c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=\omega(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=\infty\]
+ \end{definition}
+
+\subsection{Big-$\Theta$}
+ \begin{definition}{Big-$\Theta$}
+  A function $f$ is ``Big-$\Theta$'' of $g$, written $f(n)=\Theta(g(n))$ if and only if there exist constants $a, c,$ and $n_0$ such that \[a\cdot g(n) \leq f(n)\leq c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=\Theta(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=c\] where $0<c<\infty$. 
+  
+  Equivalently, $f(n)=\Theta(g(n))$ if and only if $f(n)=O(g(n))$ \textbf{and} $f(n)=\Omega(g(n))$. 
+ \end{definition}
+ 
+  \begin{definition}{Little-$\theta$}
+  A function $f$ is ``Little-$\theta$'' of $g$, written $f(n)=\theta(g(n))$ if and only if there exist constants $a, c,$ and $n_0$ such that \[a\cdot g(n) < f(n) < c\cdot g(n)\text{ for all }n\geq n_0\] 
+  
+  Equivalently, $f(n)=\theta(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=1\] 
+  
+  Equivalently, $f(n)=\theta(g(n))$ if and only if $f(n)=o(g(n))$ \textbf{and} $f(n)=\omega(g(n))$. 
+ \end{definition}
+ 
+ \subsection{Summary}
+ \begin{tabular}{|c|c|c|c|}\hline
+  Behavior & Written & Definition & Limit\\\hline
+  Big-O & $f(n)=O(g(n))$ & $f(n)\leq c\cdot g(n)$ & $\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}<\infty$\\\hline
+  Big-$\Omega$ & $f(n)=\Omega(g(n))$ & $f(n)\geq c\cdot g(n)$ & $\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}>0$\\\hline
+  Big-$\Theta$ & $f(n)=\Theta(g(n))$ & $a\cdot f(n) \leq f(n)\leq c\cdot g(n)$ & $0<\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}<\infty$\\\hline
+  Little-o & $f(n)=o(g(n))$ & $f(n)< c\cdot g(n)$ & $\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}=0$\\\hline
+  Little-$\omega$ & $f(n)=\omega(g(n))$ & $f(n)> c\cdot g(n)$ & $\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}=\infty$\\\hline
+  Little-$\theta$ & $f(n)=\theta(g(n))$ & $a\cdot g(n) < f(n) < c\cdot g(n)$ & $\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}=1$\\\hline
+ \end{tabular}
+
+ \subsection{Examples}
+ \begin{exercise}{1}
+  Show that $n^3+25n^2+n+\log{n}+15=O(n^3)$.
+ \end{exercise}
+ 
+ \begin{solution}
+  There are two straightforward solutions to this problem. One is to show this using the Big-O definition directly. Since $n^2$, $n$, $\log{n}$, and 1 (the constant function) are all less than or equal to $n^3$ for $n\geq1$, we have 
+  \begin{align*}
+   n^3+25n^2+n+15+\log{n}&\leq n^3+25n^3+n^3+n^3+n^3\\&=29n^3
+  \end{align*}
+
+  Another is to take the limit of \[\frac{n^3+25n^2+n+\log{n}+15}{n^3}\]
+  \begin{align*}
+   \lim_{n\to\infty}\frac{n^3+25n^2+n+\log{n}+15}{n^3}
+ &=\lim_{n\to\infty}\frac{3n^2+50n+1+\frac{1}{n}}{3n^2}\text{ by L'H\^{o}pital's rule}\\
+ &=\lim_{n\to\infty}\frac{6n+50+\frac{-1}{n^2}}{6n}\text{ by L'H\^{o}pital's rule}\\
+ &=\lim_{n\to\infty}\frac{6+\frac{2}{n^3}}{6}\text{ by L'H\^{o}pital's rule}\\
+ &=\lim_{n\to\infty}1+\frac{1}{3}n^3\\
+ &=1
+  \end{align*}
+
+ \end{solution}
+
+ \begin{exercise}{2}
+  Let $f(n)=n!$ and $g(n)=7^n$. Determine which function has the greater asymptotic behavior, i.e., whether $f(n)=O(g(n))$ or $g(n)=O(f(n))$ (or both).
+ \end{exercise}
+ 
+ \begin{solution}
+  A good rule of thumb to remember is that $x^n<n!<n^n$ for sufficiently large $n$. Unfortunately, using the limit definition to prove this result is difficult. Instead, we'll show it using the definition of Big-O. Take for granted that for some $k>7$, $k!\geq 7^k$. Then, for all $n>k$, we have
+  \begin{align*}
+   7^n&=7^k\cdot 7^{n-k}\\&\leq k!7^{n-k}
+  \end{align*}
+  Now, \[7^{n-k}=\underbrace{7\cdot7\hdots\cdot7}_{n-k+1\text{ multiplications}}\] and \[n!=\underbrace{1\cdot2\cdot\hdots\cdot k}_{k!}\cdot\underbrace{(k+1)\cdot(k+2)\cdot\hdots\cdot n}_{n-k+1\text{ multiplications}}\] Since $k>7$, those $n-k+1$ multiplications in the factorial are greater than $7^{n-k}$, so $7^n\leq n!$.
+  
+  Now, a more clever solution is to let $h(n)=\frac{7^n}{n!}$ and apply the ratio test. Since \[\lim_{n\to\infty}\frac{h(n+1)}{h(n)}=\lim_{n\to\infty}\frac{7}{n+1}=0\] then, by the ratio test, the series \[\sum_{n=0}^{\infty}\frac{7^n}{n!}\] converges. A series $\sum a_n$ converges only if $a_n\to0$, thus \[\lim_{n\to\infty}\frac{7^n}{n!}=0\] This means $7^n=O(n!)$. In fact, this argument works for any $a>1$ to show that $a^n=o(n!)$. 
+ \end{solution}
+
+ \section{Mathematical Induction}
+ \subsection{Weak Induction}
+   \begin{definition}{Weak Induction}
+   Let $P(n)$ be some statement on the natural numbers and suppose $P(i)$ holds for some non-negative integer $i$ (the base-case). Then, if, for any $k\geq i$, $P(k)$ implies $P(k+1)$, then $P(n)$ holds for all $n\geq i$.
+   \end{definition}
+   
+   Usually (but not always), the base-case is 0 or 1. We show the base-case (it is quite often trivial) and then show, if the statement holds for some $k$, it must hold for $k+1$. Then the statement holds for all values greater than or equal to the base-case.
+ \subsection{Strong Induction}
+  \begin{definition}{Strong Induction}
+   Let $P(n)$ be some statement on the natural numbers and suppose $p(i)$ holds for some non-negative integer $i$ (the base-case). Then, if, for any $k\geq i$, $\{P(j)|i\leq j\leq k\}$ implies $P(k+1)$, then $P(n)$ holds for all $n\geq i$.
+   \end{definition}
+  
+   Again, usually (but not always), the base-case is 0 or 1. We show the base-case (it is quite often trivial) and then show, if the statement holds for all $k$, it must hold for $k+1$. Then the statement holds for all values greater than or equal to the base-case. 
+   
+ \subsection{Summary}
+ Weak Induction and Strong Induction are \textit{logically equivalent}. In other words, any statement that can be proven with Weak Induction can be proven with Strong Induction and vice-versa. If you are unsure which to use, choose Strong Induction. The general strategy for induction is
+ \begin{enumerate}
+  \item Show the base case, $P(0)$.
+  \item Assume the induction step $P(k)$ (Weak Induction) or $P(0), P(1), \hdots, P(k)$ (Strong Induction).
+  \item Show that $P(k+1)$ holds.
+  \item Then $P(n)$ is true by Induction.
+ \end{enumerate}
+ 
+ \subsection{Examples}
+ \begin{exercise}{1}
+ Show that $1+2+3+\hdots+(n-1)+n=\frac{(n)(n+1)}{2}$ by Weak Induction.
+  \end{exercise}
+  \begin{solution}
+   The base case is trivial: $1=\frac{(1)(1+1)}{2}$. Suppose that, for some $k>1$, $1+2+\hdots+k=\frac{(k)(k+1)}{2}$. Then, for $n=k+1$, we have 
+   \begin{align*}1+2+\hdots+k+(k+1)&=(1+2+\hdots+k) + (k+1)\\
+&=\frac{(k)(k+1)}{2}+(k+1)\text{ by our Induction Hypothesis}\\
+&=\frac{k^2+k}{2}+\frac{2k+2}{2}\\&=\frac{k^2+3k+2}{2}\\&=\frac{(k+1)(k+2)}{2}
+   \end{align*}
+   This completes the proof.
+  \end{solution}
+
+ \begin{exercise}{2}
+  Let $T(n) = T(n-1) + T(n-2) + T(n-3)$ and $T(0)=1$, $T(1)=1$, and $T(2)=3$. Show that $T(n)<2^n$ by Strong Induction.
+ \end{exercise}
+ \begin{solution}
+  Our base cases $T(0)$, $T(1)$ and $T(2)$ are given. Suppose that, for all $k\leq n-1$, $T(k)<2^k$. Then 
+  \begin{align*}
+  T(n)&=T(n-1)+T(n-2)+T(n-3)\\
+      &<2^{n-1}+2^{n-2}+2^{n-3}\text{ by our Induction Hypothesis}\\
+      &=2^{n-3}(2^2+2^1+2^0)\\
+      &=7\cdot2^{n-3}\\
+      &<8\cdot2^{n-3}\\
+      &=2^n
+  \end{align*}
+This completes the proof.
+ \end{solution}
+
+\section{Recursion}
+\subsection{Recursive Functions}
+A recursive function has two conditions
+\begin{enumerate}
+ \item A termination condition.
+ \item A recursive call.
+\end{enumerate}
+
+For this reason, there is an obvious parallel between recursion and Mathematical Induction. An example of a recursion is the factorial function:
+
+\[n! = \begin{cases} 
+       1 & \text{ if }n=0 \\
+       n\cdot(n-1)! & \text{ if } n>0
+   \end{cases}\]
+
+Our base case is when $n=0$. If, for example, we wish to calculate $4!$ recursively, it would be as follows:
+\begin{align*}4!&=4\cdot3!\\&=4\cdot(3\cdot2!)\\&=4\cdot(3\cdot(2\cdot(1!)))\\&=4\cdot(3\cdot(2\cdot(1\cdot(0!))))\\&=4\cdot(3\cdot(2\cdot(1\cdot(1))))\\&=4\cdot(3\cdot(2\cdot(1)))\\&=4\cdot(3\cdot(2))\\&=4\cdot(6)\\&=24\end{align*}
+
+\subsection{Recurrences}
+A way to evaluate the runtime of a recursive algorithm is to set up a recurrence relation. In the factorial example above, let $T$ denote the runtime of the algorithm. Clearly, $T(0)=0$. Each step of the recursion involves a single multiplication and then calls the algorithm on the previous number. Our recurrence is therefore $T(n)=T(n-1)+1$. To determine the asymptotic runtime of this algorithm, we unroll the recursion:
+\begin{align*}
+T(n)&=T(n-1)+1\\
+    &=T(n-2)+2\\
+    &\vdots\\
+    &=T(1) + (n-1)\\
+    &=T(0)+n\\&=n
+\end{align*}
+
+Hence $T(n)=O(n)$. 
+
+However, often our recurrences are more involved. Consider the recurrence for Merge Sort. Each step involves splitting the array in half and then performing the Merge Sort on each half, then combining the result in $O(n)$ time. This gives the following recurrence \[T(n)=2T\left(\frac{n}{2}\right)+O(n)\] Another way to solve a recurrence is by ``guess-and-check''. For example, let's try to show that $T(n)=O(n)$. Proceed by Strong Induction. The base-case is given. Then \begin{align*}T(n)&\leq2c\frac{n}{2}+c'n\\&=(c+c')n\end{align*} This does not work, because it is crucial that the $c$ we use in the induction step (that $T(n)\leq cn$) is the \textit{same} $c$ at the end. Showing $T(n)\leq(c+c')n$ is \textit{not} the desired result.
+
+Thus, we revise our guess. Let's try $T(n)=O(n\log{n})$. Then 
+\begin{align*}
+T(n)&\leq2c\frac{n}{2}\log{\frac{n}{2}}+c'n\\
+    &=cn\log{n}+c'n-cn\log{2}\\
+    &=cn\log{n}+c'n-cn\\
+    &=cn\left(\log{n}+c'-c\right)
+\end{align*}
+Now, for sufficiently large $c$, we have $c'<c$. Then $c'-c<0$, and
+\begin{align*}
+T(n)&\leq cn\left(\log{n}+c'-c\right)\\
+    &\leq cn\log{n}
+\end{align*}
+
+\subsection{Divide and Conquer}
+Divide and Conquer is an algorithm technique in which you split your problem into several subproblems then combine the solutions on those subproblems. Merge Sort is a classic example: sort an array by dividing it in half, sort each half recursively, then combine the sorted sub-arrays into one sorted array. 
+
+\subsection{The DC Recurrence Theorem}
+The \textbf{DC Recurrence Theorem} applies for any recursion of the form $T(n)=aT(\frac{n}{b})+f(n)$. It provides a straightforward method of determining the asymptotic runtime of recurrences that are in this form. 
+\begin{thm}
+ Let $T(n)=aT(\frac{n}{b})+f(n)$ be a recurrence and let $af(\frac{n}{b})=cf(n)$. Then 
+ \begin{enumerate}
+  \item If $c<1$ then $T(n)=\Theta(f(n))$.
+  \item If $c>1$ then $T(n)=\Theta(n^{\log_ba})$.
+  \item If $c=1$ then $T(n)=\Theta(f(n)\log_bn)$.
+ \end{enumerate}
+\end{thm}
+
+For the above example of Merge Sort, we have $T(n)=2T(\frac{n}{2})+O(n)$. In this case, $f(n)=c'(n)$. Then $af(\frac{n}{b})=2c'(\frac{n}{2})=c'n=f(n)$. Thus, $c=1$ and we have $T(n)=\Theta(n\log{n})$. 
+
+Note that this theorem \textit{only} applies to recurrences like the above. For example, to determine the asymptotic runtime of $T(n)=T(\frac{3n}{4})+T(\frac{n}{4})+n$, the DC Recurrence Theorem does \textit{not} apply. We must use induction or analyze the recursion tree to determine its runtime.
+
+\subsection{Examples}
+\begin{exercise}{1}
+ Show that $T(n)=4T(\frac{n}{2})+n^3=\Theta(n^3)$.
+\end{exercise}
+
+\begin{solution}
+ In this case, $a=4$, $b=2$ and $f(n)=n^3$. Then $af(\frac{n}{b})=4\left(\frac{n}{2}\right)^3=\frac{4}{8}n^3=\frac{1}{2}n^3$. Then $c=\frac{1}{2}<1$ and, by the DC Recurrence Theorem, $T(n)=\Theta(n^3)$.
+\end{solution}
+
+\begin{exercise}{2}
+ Determine the runtime of $T(n)=3T(\frac{n}{2})+n$.
+\end{exercise}
+
+\begin{solution}
+ In this case, $a=3$, $b=2$, and $f(n)=n$. Then $af(\frac{n}{b})=3\frac{n}{2}=\frac{3}{2}n$. Then $c=\frac{3}{2}>1$ and, by the DC Recurrence Theorem, $T(n)=\Theta(n^{\log_ba})=\Theta(n^{\log{3}})$.
+\end{solution}
+
+\begin{exercise}{3}
+You are given n stones (assume that n is a power of 2) each having a distinct weight. You are also given a two-pan balance scale (no weights are given). For example, given two stones, you can use the scale to compare which one is lighter by placing the two stones on the two different pans. The goal is the find the heaviest and the lightest stone by using as few weighings as possible. Give a divide and conquer strategy that uses only $\frac{3n}{2}-2$ weighings.
+\end{exercise}
+
+\begin{solution}
+ Write $n=2^m$. Perform $\frac{n}{2}$ comparisons, noting that the heavier stones are candidates for the heaviest stone, and lighter stones are the candidates for the lightest stone. Perform comparisons on the remaining $\frac{n}{4}$ heavier stones, then $\frac{n}{8}$ heavier stones, and so on. This will total \[2^m+2^{m-1}+\hdots+4+2+1=2^m-1=n-1 \text{ comparisons}\] and will determine the heaviest stone. From the remaining $\frac{n}{2}$ stones in the pile of candidates for the lightest stone, we similarly perform \[2^{m-1}+2^{m-2}+\hdots+4+2+1=2^{m-1}-1=\frac{n}{2}-1 \text{ comparisons}\] to determine the lightest stone. In total, this is \[\overset{\text{test on heavy stones}}{\vphantom{\frac{n}{2}}n-1} + \overset{\text{test on light stones}}{\frac{n}{2}-1}=\frac{3n}{2}-2\text{ comparisons}\]
+ \end{solution}
+
+ \section{Dynamic Programming}
+ Dynamic programming involves breaking a problem into \textit{overlapping} subproblems, then combining the solutions to those subproblems to determine the solution to the greater problem. 
+\subsection{Fix-One-Index Problems}
+One way to break a problem $P_n$ into subproblems is to consider subproblems of the form $P_{0,i}$ for all $i$, where the left-most index is fixed. We then combine those solutions to determine $P_{0,n}$, our original problem. Suppose, for example, that we wish to transform a string $x$ into a string $y$. We consider the subproblems of transforming $x_i$ (the first $i$ characters) into $y_j$ (the first $j$ characters), and determine the solutions to these subproblems to determine the solution to the original problem. 
+\subsection{Vary-Both-Indices Problems}
+Another way to break a problem $P_n$ into subproblems is to consider subproblems of the form $P_{i,j}$ for all $i$ and $j$. In this case, \textit{neither} index is fixed. Suppose, for example, that we have a product of matrices $M_0M_2\hdots M_{n-1}$ and we wish the minimize the total number of operations performed on this multiplication by grouping our matrices. Our subproblems are $P_{i,j}$ where $i$ is the index of the left-most matrix and $j$ is the index of the right-most matrix.
+\subsection{Iterative Solutions}
+Suppose we have broken our problem $P$ into subproblems $P_{i}$. We let $i$ iterate from $0$ to $n$ and solve each problem iteratively. This usually done by storing our values $P_i$ into an array. This commonly referred to as a \textit{Bottom-Up} approach.
+\subsection{Recursive Solutions}
+In this case, we have a recursive formulation for $P_n$ in terms of previous values of $P_i$. We recursively calculate $P(n)$ to determine our solution. However, this will usually have sub-optimal runtime due to the overlapping-subproblems. To reduce the number of recursive calls, we create a \textit{lookup-table}. The general format for this is 
+\begin{enumerate}
+ \item Examine $P(n)$ in our lookup table. If it has been evaluated, return the value from the table.
+ \item Else, evaluate $P(n)$ and store the value in the table.
+\end{enumerate}
+
+This is usually done with a \textit{sentinal} value. This is something that indicates that the problem has not yet been solved. For example, if you are determining the minimum value, you can set $T[n]=-\infty$. When looking up a value, if $T[n]=-\infty$, the value has not been determined, and thus must be computed. If the value is anything else, it has been calculated already and can be returned.
+
+\subsection{Exercises}
+\begin{exercise}{1}
+ Let x and y be strings of symbols from some alphabet set of length $m$ and $n$ respectively ($m$ need not be equal to $n$). Consider the operations of deleting a symbol from x, inserting a symbol into x and replacing a symbol in x by another symbol (belonging to the alphabet set). Your goal is to design an efficient algorithm using dynamic programming to find the minimum number of such operations (as well as to find the operations that transform x to y that correspond to the minimum number) needed to transform x into y. Your algorithm should run in time O(mn).
+\end{exercise}
+
+\begin{solution}
+ Let $x=x_0x_1\hdots x_{m-1}$ and $y=y_0y_1\hdots y_{n-1}$. Denote by $S_{i,j}(x, y)$ the minimum number of operations to transform the prefix $x_0x_1\hdots x_{i-1}$ into the prefix $y_0y_1\hdots y_{j-1}$ for some $(i, j)\in\{0,1,\hdots, m\}\times\{0, 1,\hdots, n\}$.\footnote{Noting that $S_{0,j}$ and $S_{i,0}$ correspond to cases with empty strings.} Our subproblems can be stored in the following $(m+1)\times(n+1)$ matrix 
+ \[\begin{bmatrix}
+S_{0,0}(x, y)&S_{0,1}(x, y)&\hdots &S_{0,n-1}(x, y)&S_{0, n}(x, y)\\
+S_{1,0}(x, y)&S_{1,1}(x, y)&\hdots &S_{1,n-1}(x, y)&S_{1, n}(x, y)\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+S_{m-1,0}(x, y) & S_{m-1, 1}(x, y)&\hdots  & S_{m-1, n-1}(x, y)&S_{m-1, n}(x, y)\\
+S_{m,0}(x, y) & S_{m, 1}(x, y) &\hdots  & S_{m, n-1}(x, y) & S_{m, n}(x, y)
+\end{bmatrix}\] 
+
+Define $C(a, b)$ on characters $a$ and $b$ as follows
+ \[C(a,b) = \begin{cases} 
+       0 & \text{ if }a=b \\
+       1 & \text{ if }a\neq b
+   \end{cases}\]
+   
+   Now, consider $S_{i, j}(x, y)$. To transform $x_0x_1\hdots x_{i-1}$ into $y_0y_1\hdots y_{j-1}$, we can
+\begin{enumerate}[1.]
+  \item Transform $x_0x_1\hdots x_{i-2}$ into $y_0y_1\hdots y_{j-1}$ using $S_{i-1, j}(x, y)$ operations, then perform one deletion, for a total of $S_{i-1, j}(x, y) + 1$ operations.
+  \begin{align*}
+  \underbrace{x_0x_1\hdots x_{i-2}}_{\text{Transform}}&\underbrace{x_{i-1}}_{\text{Delete}}\\
+  y_0y_1\hdots y_j&
+  \end{align*}
+  \item Transform $x_0x_1\hdots x_{i-1}$ into $y_0y_1\hdots y_{j-2}$ using $S_{i, j-1}(x, y)$ operations, then perform one insertion, for a total of $S_{i, j-1}(x, y) + 1$ operations.
+  \begin{align*}
+  &\underbrace{x_0x_1\hdots x_{i-1}}_{\text{Transform}}\\
+  &y_0y_1\hdots y_{j-2}\underbrace{y_{j-1}}_{\text{Insert}}
+  \end{align*}
+  \item Transform $x_0x_1\hdots x_{i-2}$ into $y_0y_1\hdots y_{j-2}$ using $S_{i-1, j-1}(x, y)$ operations, then 
+    \begin{enumerate}
+    \item if $x_{i-1}=y_{j-1}$, zero replacements
+    \item if $x_{i-1}\neq y_{j-1}$, one replacement
+    \end{enumerate} for a total of $S_{i-1, j-1}(x, y)+C(x_{i-1}, y_{j-1})$ operations.
+      \begin{align*}
+  &\underbrace{x_0x_1\hdots x_{i-2}}_{\text{Transform}}\underbrace{x_{i-1}}_{\text{replacement}}\\
+  &y_0y_1\hdots y_{j-2}\text{ }\text{ }\text{ }\text{ }y_{j-1}  \end{align*}
+ \end{enumerate}
+ Thus, setting \begin{align*}m_1&=S_{i-1, j}(x, y) + 1\\m_2&=S_{i, j-1}(x, y) + 1\\m_3&=S_{i-1, j-1}(x, y)+C(x_{i-1}, y_{j-1})\end{align*} gives our recursion \[S_{i,j}(x, y)=\text{min}(m_1, m_2, m_3)\]
+ 
+ Now, the base cases are when $i$ or $j$ are 0. $S_{0, j}(x,y)$ is the minimum number of operations to tranform an empty string into $y_0, y_1,\hdots y_{j-1}$, which is clearly just $j$. Similarly, $S_{i, 0}(x,y)=i$.
+\end{solution}
+
+
+\end{document}
