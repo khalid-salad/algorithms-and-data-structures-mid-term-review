@@ -342,5 +342,17 @@ Define $C(a, b)$ on characters $a$ and $b$ as follows
  Now, the base cases are when $i$ or $j$ are 0. $S_{0, j}(x,y)$ is the minimum number of operations to tranform an empty string into $y_0, y_1,\hdots y_{j-1}$, which is clearly just $j$. Similarly, $S_{i, 0}(x,y)=i$.
 \end{solution}
 
+\begin{exercise}{2}
+ Let $M_1, M_2, \hdots, M_n$ be matrices with dimensions $p_0\times p_1, p_1\times p_2, \hdots, p_{n-1}\times p_n$ respectively. Find a way to parenthesize the product $M_1M_2\hdots M_n$ such that the number of multiplications is minimized.
+\end{exercise}
 
+\begin{solution}
+ Let $P_{i,j}$ denote the solution for the product $M_iM_{i+1}\hdots M_j$. If there is an optimal way to parenthesize this subproblem, there must be a final-most right-parenthesis. If this right-most parenthesis is at $M_k$, then our parenthesization is: \[\left(M_iM_{i+1}\hdots M_k\right)\left(M_{k+1}M_{k+2}\hdots M_j\right)\] The best way to parametrize the left-product is $P_{i,k}$ and the right-product is $P_{k+1,j}$. The cost of multiplying the resultant matrices is $P_{i-1}p_kp_j$. Thus, \textit{if this choice of $M_k$ is optimal}, we have \[P_{i,j}=P_{i,k}+P_{k+1,j}+p_{i-1}p_kp_j\] However, we don't know this value $k$ ahead of time, so we evaluate the minimum across \textit{all} $k$, giving the recurrence 
+  \[P_{i,j} = \begin{cases} 
+       0 & \text{ if }i=j \\
+       \underset{i\leq k<j}{\text{min}}\{P_{i,k}+P_{k+1,j}+p_{i-1}p_kp_j\} & \text{ if }i\neq j
+   \end{cases}\]
+   
+ The solution to the original problem is then $P_{0,n}$. 
+\end{solution}
 \end{document}
