@@ -7,7 +7,7 @@
     Equivalently, $f(n)=\bigO{g(n)}$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}<\infty\]
 \end{definition}
 
-\begin{definition}{\littleOName}
+\begin{definition}{\littleOName}{}
     A function $f$ is \littleOName of $g$, written $f(n)=\littleO{g(n)}$, if and only if, for any constant $c>0$, there exists an $n_0>0$ such that \[f(n)< c\cdot g(n)\hbox{ for all $n\geq n_0$}\]
 
     Equivalently, $f(n)=o(g(n))$ if and only if \[\lim_{n\to\infty}\frac{f(n)}{g(n)}=0\]
