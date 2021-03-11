@@ -1,0 +1,183 @@
+\ProvidesPackage{review}
+
+\RequirePackage[l2tabu, orthodox]{nag}
+%\renewcommand{\baselinestretch}{1.3}
+\usepackage[a4paper,margin=1in]{geometry}
+\setlength{\marginparwidth}{2cm} 
+\usepackage{amssymb,amsmath,amsthm,amsfonts,mathrsfs,xcolor}
+\usepackage{indentfirst}
+\usepackage{mathtools}
+\usepackage[notref, notcite]{showkeys}
+\usepackage{ifdraft, tocloft}
+\usepackage{tcolorbox}
+\usepackage{xparse, xspace}
+\usepackage{setspace}
+\usepackage{ifthen}
+\usepackage[toc,page]{appendix}
+\noappendicestocpagenum
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage[inline]{enumitem}
+\usepackage{cancel}
+\usepackage{tikz, pgfplots}
+\usepackage{calc}
+\usepackage{caption, subcaption}
+\usepackage{tabularx}
+\usepackage[normalem]{ulem}
+\usepackage{microtype}
+\usepackage{booktabs, multicol, multirow, adjustbox, blkarray}
+\usepackage{xfrac}
+\UseCollection{xfrac}{plainmath}
+\usepackage{thmtools}
+\usepackage{mleftright}
+\mleftright
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{keyval}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{layout}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{cleveref}
+\hypersetup{final}
+\usepackage[obeyFinal]{todonotes}
+\ifdraft{\usepackage{draftwatermark}\SetWatermarkAngle{90}\SetWatermarkFontSize{2cm}\SetWatermarkHorCenter{1cm}}{}
+\newcommand{\soutthick}[1]{%
+    \renewcommand{\ULthickness}{1.2pt}%
+       \sout{#1}%
+    \renewcommand{\ULthickness}{.4pt}% Resetting to ulem default
+}
+
+\ifdraft{\newcommand{\listofeditsname}{List of Edits}}{}
+\ifdraft{\newlistof[chapter]{edits}{edit}{\listofeditsname}}{}
+\ifdraft{\NewDocumentCommand{\khalid}{m g o}{%
+    \IfValueTF{#3}{%
+    \todo[caption={},color=red!40]{#3}}{}
+    \refstepcounter{edits}\addcontentsline{edit}{edits}{\theedits~Edit:}\soutthick{#1}%
+    \IfValueTF{#2}{{\color{red!75}~#2}}{}%
+    }%
+}%
+{\NewDocumentCommand{\khalid}{m g o}{#1}}
+
+\pgfplotsset{compat=newest}
+\usetikzlibrary{shapes, shapes.misc, decorations, fit, backgrounds, positioning, patterns, shadows, calc, arrows, arrows.meta, trees}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikzimages/]
+\tikzset{>={Latex[width=2mm,length=2mm]}}
+\newcommand\DoubleLine[7][4pt]{%
+    \path(#2)--(#3)coordinate[at start](h1)coordinate[at end](h2);
+    \draw[#4]($(h1)!#1!90:(h2)$)-- node [auto=left] {#5} ($(h2)!#1!-90:(h1)$); 
+    \draw[#6]($(h1)!#1!-90:(h2)$)-- node [auto=right] {#7} ($(h2)!#1!90:(h1)$);
+}
+\tikzset{arrowhead/.style=
+         {sloped,isosceles triangle,anchor=apex,fill=black,inner sep=2pt}}
+\tikzset{
+  point/.style={
+    draw,
+    circle,
+    inner sep=0pt,
+    outer sep=0pt,
+    minimum size=0.1cm,
+    fill
+  }
+}
+\newcommand{\msg}[1]{\langle#1\rangle}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\cyan}[1]{{\color{cyan} #1}}
+\newcommand{\magenta}[1]{{\color{magenta} #1}}
+\newcommand{\add}[1]{{\red{#1}}}
+\newcommand{\del}[1]{\sout{#1}}
+\newcommand{\comp}[1]{\overline{#1}}
+\theoremstyle{plain}
+\tcbuselibrary{theorems, skins, breakable, listings, most}
+\tcbset{shield externalize}
+\newenvironment{solution}{\begin{proof}[\textnormal{\textbf{Solution}}]}{\end{proof}}
+\newtcbtheorem{theorem}{Theorem}{colback=gray!25,colframe=gray!90!black,fonttitle=\bfseries, separator sign={~$\blacktriangleright$}}{thm}
+\newtcbtheorem{exercise}{Exercise}{colback=red!25,colframe=red!90!black,fonttitle=\bfseries, separator sign={~$\blacktriangleright$}}{exe}
+\newtcbtheorem{definition}{Definition}{colback=blue!5,colframe=blue!35!black,fonttitle=\bfseries, separator sign={~$\blacktriangleright$}}{def}
+\newtcbtheorem[use counter from=theorem]{lemma}{Lemma}{colback=gray!25,colframe=gray!90!black,fonttitle=\bfseries, separator sign={~$\blacktriangleright$}}{lem}
+\newtcbtheorem[use counter from=theorem]{corollary}{Corollary}{colback=gray!25,colframe=gray!90!black,fonttitle=\bfseries, separator sign={~$\blacktriangleright$}}{cor}
+
+\makeatletter
+\NewDocumentCommand{\LineComment}{s m}{%
+    \Statex \IfBooleanF{#1}{\hspace*{\ALG@thistlm}}\(\triangleright\) #2}
+\makeatother
+
+\definecolor{algcolor}{HTML}{2979FF}
+\definecolor{inputcolor}{rgb}{1, 0, 0}
+\definecolor{outputcolor}{rgb}{1, 0, 0}
+\definecolor{keywordcolor}{HTML}{80CBC4}
+% --------------------PYTHON STYLE---------------------------------%
+\algrenewtext{For}[1]{\algorithmicfor~#1:}
+\algrenewtext{If}[1]{\algorithmicif~#1:}
+\algrenewtext{While}[1]{\algorithmicwhile~#1:}
+\algrenewtext{ElsIf}[1]{\algorithmicelse~\algorithmicif~#1:}
+\algrenewtext{Else}{\algorithmicelse:}
+\algrenewtext{Function}[2]{\textbf{def}~\textproc{\AlgName{#1}}(#2):}
+\algrenewtext{Procedure}[2]{\textbf{def}~\textproc{\AlgName{#1}}(#2):}
+\algblockdefx{ForRange}{EndForRange}[3]{\algorithmicfor~#1~$\gets$~#2~\algorithmicto~#3:}{\algorithmicend~\algorithmicfor}
+\makeatletter
+\ifthenelse{\equal{\ALG@noend}{t}}{\algtext*{EndForRange}}{}
+\makeatother
+\algblockdefx{ForEach}{EndForEach}[1]{\algorithmicfor~\textbf{each}~#1:}{\algorithmicend~\algorithmicfor~\textbf{each}}
+\makeatletter
+\ifthenelse{\equal{\ALG@noend}{t}}{\algtext*{EndForEach}}{}
+\makeatother
+% -----------------------------------------------------------------%
+\algnewcommand\algorithmicto{\textbf{to}}
+
+\algblockdefx{ForEach}{EndForEach}[1]{\algorithmicfor~\textbf{each}~#1~\algorithmicdo}{\algorithmicend~\algorithmicfor~\textbf{each}}
+\makeatletter
+\ifthenelse{\equal{\ALG@noend}{t}}{\algtext*{EndForEach}}{}
+\makeatother
+
+\algblockdefx{ForRange}{EndForRange}[3]{\algorithmicfor~#1~$\gets$~#2~\algorithmicto~#3~\algorithmicdo}{\algorithmicend~\algorithmicfor}
+\makeatletter
+\ifthenelse{\equal{\ALG@noend}{t}}{\algtext*{EndForRange}}{}
+\makeatother
+
+
+\newcommand{\False}{\texttt{False}\xspace}
+\newcommand{\True}{\texttt{True}\xspace}
+\newcommand{\Null}{\texttt{Null}\xspace}
+\newcommand{\AlgName}[1]{{\textcolor{algcolor}{#1}}}
+\newcommand{\AlgInput}[1]{\\\protect\phantom{\textbf{Algorithm \arabic{algorithm} }}\textcolor{inputcolor}{Input}: #1}
+\newcommand{\AlgOutput}[1]{\\\protect\phantom{\textbf{Algorithm \arabic{algorithm} }}\textcolor{outputcolor}{Output}: #1}
+\renewcommand*\Call[2]{\textproc{#1}\left(#2\right)}
+\NewDocumentCommand{\CallRef}{s m m}{
+    \IfBooleanTF{#1}{\Call{\nameref*{#2}}{#3}}{\Call{\nameref{#2}}{#3}}
+}
+
+
+
+%..........................................................
+
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\cyclicgroup}[1]{\left\langle#1\right\rangle}
+\newcommand{\card}[1]{\left\lvert#1\right\rvert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\bigO}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\bigOm}[1]{\Omega\left(#1\right)}
+\newcommand{\bigTh}[1]{\Theta\left(#1\right)}
+\newcommand{\littleO}[1]{o\left(#1\right)}
+\newcommand{\littleOm}[1]{\omega\left(#1\right)}
+\newcommand{\littleTh}[1]{\theta\left(#1\right)}
+\newcommand{\bigOName}{\text{Big-}$\mathcal{O}$\xspace}
+\newcommand{\bigOmName}{\text{Big-}$\Omega$\xspace}
+\newcommand{\bigThName}{\text{Big-}$\Theta$\xspace}
+\newcommand{\littleOName}{\text{Little-}$o$\xspace}
+\newcommand{\littleOmName}{\text{Little-}$\omega$\xspace}
+\newcommand{\littleThName}{\text{Little-}$\theta$\xspace}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\prob}[1]{\operatorname{\Pr}\left(#1\right)}
+\newcommand{\expectation}[1]{\operatorname{\mathbb{E}}\left[#1\right]}
+\newcommand{\variance}[1]{\operatorname{\mathbb{V}}\left[#1\right]}
+\newcommand{\suchthat}{\mid}
+\newcommand{\given}{\mid}
+\newcommand{\divides}{\mid}
+\newcommand{\concat}{+}
+\newcommand{\sign}[1]{\operatorname{sign}\left(#1\right)}
